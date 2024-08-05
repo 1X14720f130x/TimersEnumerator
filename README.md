@@ -64,8 +64,8 @@ BOOLEAN KiInsertTimerTable(PKRCB Prcb, PKTIMER Timer, PKDPC Dpc, ULONG Index, UI
 	
 	_KTIMER_TABLE_ENTRY* TimerTableEntry = &currentPrcb->TimerTable.TimerEntries[Timer->TimerType][Index];
 		
-	// Wait on the lock (lock bts) 
-	WaitOnLock(TimerTableEntry->Lock);
+	// Lock the TimerTable entry 
+	KeAcquireSpinLockAtDpcLevel( &TimerTableEntry->Lock );
 	
 	PLIST_ENTRY ListHead = &TimerTableEntry->Entry;
 	
@@ -186,8 +186,8 @@ BOOLEAN KiInsertTimerTable(PKRCB Prcb, PKTIMER Timer, PKDPC Dpc, ULONG Index, UI
 		
 	}
 	
-	// Set the lock to 0 (lock and) 
-	ReleaseTheLock(TimerTableEntry->Lock);
+	// Release the lock of the TimerTable entry 
+	KeReleaseSpinLockFromDpcLevel( &TimerTableEntry->Lock );
 	
 	
 	return Active;
