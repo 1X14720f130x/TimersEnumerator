@@ -14,7 +14,6 @@ This driver enumerates all timers on the system.
 It logs information about each timers using Event Tracing for Windows (ETW).
 */
 
-#pragma warning(disable : 4996) // ExAllocatePoolWithTag
 #pragma warning(disable : 4100) // Unreferenced parameter
 
 // {B6FAA951-0C06-46B4-BF9A-49519BA138D9}
